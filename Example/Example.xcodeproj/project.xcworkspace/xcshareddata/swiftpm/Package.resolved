@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "wwprint",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWPrint.git",
+      "state" : {
+        "revision" : "e4ad2863717465f224aa676f10a3a7ff1df58f7c",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "wwtoast",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWToast",
+      "state" : {
+        "branch" : "main",
+        "revision" : "28e381a7a447d4e65c5a18e48c0b2dd7648a7a8f"
+      }
+    }
+  ],
+  "version" : 2
+}
