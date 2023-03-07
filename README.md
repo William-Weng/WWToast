@@ -40,7 +40,7 @@ final class ViewController: UIViewController {
             return
         }
         
-        WWToast.shared.makeText(target: self, text: text)
+        WWToast.shared.makeText(target: self, text: text, backgroundColor: .red)
     }
 }
 

@@ -2,7 +2,7 @@
 //  ToastViewController.swift
 //  
 //
-//  Created by iOS on 2023/2/22.
+//  Created by William.Weng on 2023/2/22.
 //
 
 import UIKit
@@ -23,6 +23,7 @@ public class ToastViewController: UIViewController {
     
     private let font = UIFont.systemFont(ofSize: 20.0)
     private var previousDeadline: DispatchTime = .now()
+    private var textList: [String] = []
 }
 
 // MARK: - ToastViewController (class function)
@@ -38,10 +39,15 @@ extension ToastViewController {
         
         if (previousDeadline < deadline) { previousDeadline = deadline }
         
-        deadline = previousDeadline + duration.rawValue
-        previousDeadline = deadline
+        if (!textList.isEmpty) {
+            deadline = previousDeadline + duration.rawValue
+        } else {
+            deadline = previousDeadline + 0
+        }
         
-        wwPrint(text)
+        previousDeadline = deadline
+        textList.append("\(text)")
+        wwPrint("\(text)")
         
         DispatchQueue.main.asyncAfter(deadline: deadline) { [weak self] in
             
@@ -50,9 +56,8 @@ extension ToastViewController {
             let runningDuration = duration.rawValue * 0.5
             let lines = this.toastWindowSetting(target: target, text: text)
             
-            this.toastViewControllerSetting(text, lines: lines)
+            this.toastViewControllerSetting(text, lines: lines, backgroundColor: backgroundColor)
             this.backgroundView.alpha = 0.0
-            this.messageLabel.text = "\(text)"
             
             UIViewPropertyAnimator.runningPropertyAnimator(withDuration: runningDuration, delay: 0, options: [.curveEaseInOut], animations: {
                 this.backgroundView.alpha = 1.0
@@ -61,6 +66,7 @@ extension ToastViewController {
                 UIViewPropertyAnimator.runningPropertyAnimator(withDuration: runningDuration, delay: 0, options: [.curveEaseInOut], animations: {
                     this.backgroundView.alpha = 0.0
                 }, completion: { _ in
+                    _ = this.textList.popLast()
                 })
             })
         }
@@ -113,7 +119,7 @@ private extension ToastViewController {
         self.backgroundView.backgroundColor = backgroundColor
         
         self.messageLabel.font = font
-        self.messageLabel.text = ""
+        self.messageLabel.text = "\(text)"
         self.messageLabel.textColor = textColor
         self.messageLabel.textAlignment = (lines > 1) ? .left : .center
     }
