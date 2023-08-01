@@ -54,7 +54,7 @@ extension ToastViewController {
             guard let this = self else { return }
             
             let runningDuration = duration.rawValue * 0.5
-            let lines = this.toastWindowSetting(target: target, text: text)
+            let lines = this.toastWindowSetting(target: target, text: text, height: height)
             
             this.toastViewControllerSetting(text, lines: lines, backgroundColor: backgroundColor)
             this.backgroundView.alpha = 0.0
