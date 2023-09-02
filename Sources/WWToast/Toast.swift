@@ -53,8 +53,20 @@ public extension ToastWindow {
     ///   - textColor: 文字顏色
     ///   - height: 與底部的相差高度
     func makeText<T>(target: UIViewController, text: T, duration: ToastViewController.ToastLength = .middle, backgroundColor: UIColor = .darkGray, textColor: UIColor = .white, height: CGFloat = 64.0) {
+        makeText(targetFrame: target.view.frame, text: text, duration: duration, backgroundColor: backgroundColor, textColor: textColor, height: height)
+    }
+    
+    /// [顯示文字](https://ithelp.ithome.com.tw/articles/10241214)
+    /// - Parameters:
+    ///   - targetFrame: 要顯示View的Frame
+    ///   - text: 顯示的文字
+    ///   - duration: 顯示的時間
+    ///   - backgroundColor: 背景色
+    ///   - textColor: 文字顏色
+    ///   - height: 與底部的相差高度
+    func makeText<T>(targetFrame: CGRect, text: T, duration: ToastViewController.ToastLength = .middle, backgroundColor: UIColor = .darkGray, textColor: UIColor = .white, height: CGFloat = 64.0) {
         
         guard let viewController = self.rootViewController as? ToastViewController else { return }
-        viewController.makeText(target: target, text: text, duration: duration, backgroundColor: backgroundColor, textColor: textColor, height: height)
+        viewController.makeText(targetFrame: targetFrame, text: text, duration: duration, backgroundColor: backgroundColor, textColor: textColor, height: height)
     }
 }
