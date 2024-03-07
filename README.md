@@ -1,10 +1,10 @@
 # WWToast
 
-[![Swift-5.7](https://img.shields.io/badge/Swift-5.7-orange.svg?style=flat)](https://developer.apple.com/swift/) [![iOS-13.0](https://img.shields.io/badge/iOS-13.0-pink.svg?style=flat)](https://developer.apple.com/swift/) ![](https://img.shields.io/github/v/tag/William-Weng/WWToast) [![Swift Package Manager-SUCCESS](https://img.shields.io/badge/Swift_Package_Manager-SUCCESS-blue.svg?style=flat)](https://developer.apple.com/swift/) [![LICENSE](https://img.shields.io/badge/LICENSE-MIT-yellow.svg?style=flat)](https://developer.apple.com/swift/)
+[![Swift-5.6](https://img.shields.io/badge/Swift-5.6-orange.svg?style=flat)](https://developer.apple.com/swift/) [![iOS-14.0](https://img.shields.io/badge/iOS-14.0-pink.svg?style=flat)](https://developer.apple.com/swift/) ![](https://img.shields.io/github/v/tag/William-Weng/WWToast) [![Swift Package Manager-SUCCESS](https://img.shields.io/badge/Swift_Package_Manager-SUCCESS-blue.svg?style=flat)](https://developer.apple.com/swift/) [![LICENSE](https://img.shields.io/badge/LICENSE-MIT-yellow.svg?style=flat)](https://developer.apple.com/swift/)
 
-A small tool imitating Android's [Toast](https://developer.android.com/guide/topics/ui/notifiers/toasts) function...
-
-一個仿Android的[Toast](https://developer.android.com/guide/topics/ui/notifiers/toasts?hl=zh-tw)功能的小工具…
+## [Introduction - 簡介](https://swiftpackageindex.com/William-Weng)
+- A small tool imitating Android's [Toast](https://developer.android.com/guide/topics/ui/notifiers/toasts) function...
+- 一個仿Android的[Toast](https://developer.android.com/guide/topics/ui/notifiers/toasts?hl=zh-tw)功能的小工具…
 
 ![](./Example.gif)
 
@@ -12,7 +12,7 @@ A small tool imitating Android's [Toast](https://developer.android.com/guide/top
 
 ```
 dependencies: [
-    .package(url: "https://github.com/William-Weng/WWToast.git", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/William-Weng/WWToast.git", .upToNextMajor(from: "1.1.0"))
 ]
 ```
 

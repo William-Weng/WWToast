@@ -12,7 +12,7 @@ let package = Package(
         .library(name: "WWToast", targets: ["WWToast"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/William-Weng/WWPrint.git", from: "1.0.0")
+        .package(url: "https://github.com/William-Weng/WWPrint.git", from: "1.3.0")
     ],
     targets: [
         .target(name: "WWToast", dependencies: ["WWPrint"], resources: [.process("Storyboard")]),
