@@ -1,6 +1,6 @@
 //
-//  ToastViewController.swift
-//  
+//  WWToastViewController.swift
+//  WWToast
 //
 //  Created by William.Weng on 2023/2/22.
 //
@@ -8,8 +8,8 @@
 import UIKit
 import WWPrint
 
-// MARK: - ToastViewController
-public class ToastViewController: UIViewController {
+// MARK: - WWToastViewController
+public class WWToastViewController: UIViewController {
     
     // MARK: - 顯示的時間
     public enum ToastLength: TimeInterval {
@@ -24,16 +24,18 @@ public class ToastViewController: UIViewController {
     private let font = UIFont.systemFont(ofSize: 20.0)
     private var previousDeadline: DispatchTime = .now()
     private var textList: [String] = []
+    
+    weak var delegate: WWToastDelegate?
 }
 
-// MARK: - ToastViewController (function)
-extension ToastViewController {
+// MARK: - WWToastViewController (function)
+extension WWToastViewController {
     
     /// 顯示文字
     /// - Parameters:
     ///   - text: 文字
     ///   - duration: 時間
-    func makeText<T>(targetFrame: CGRect, text: T, duration: ToastViewController.ToastLength = .middle, backgroundColor: UIColor = .darkGray, textColor: UIColor = .white, height: CGFloat = 64.0) {
+    func makeText<T>(targetFrame: CGRect, text: T, duration: WWToastViewController.ToastLength = .middle, backgroundColor: UIColor = .darkGray, textColor: UIColor = .white, height: CGFloat = 64.0) {
         
         var deadline: DispatchTime = .now()
         
@@ -47,7 +49,10 @@ extension ToastViewController {
         
         previousDeadline = deadline
         textList.append("\(text)")
-        wwPrint("\(text)")
+        
+        let window = view.window as? WWToastWindow
+                
+        delegate?.willDisplay(window: window, textList: textList, text: textList.last)
         
         DispatchQueue.main.asyncAfter(deadline: deadline) { [weak self] in
             
@@ -58,23 +63,33 @@ extension ToastViewController {
             
             this.toastViewControllerSetting(text, lines: lines, backgroundColor: backgroundColor)
             this.backgroundView.alpha = 0.0
-            
+            this.view.window?.isHidden = false
+
             UIViewPropertyAnimator.runningPropertyAnimator(withDuration: runningDuration, delay: 0, options: [.curveEaseInOut], animations: {
+                
                 this.backgroundView.alpha = 1.0
+
             }, completion: { _ in
-                this.backgroundView.alpha = 1.0
+                
+                this.delegate?.didDisplay(window: window, textList: this.textList, text: this.textList.last)
+                
                 UIViewPropertyAnimator.runningPropertyAnimator(withDuration: runningDuration, delay: 0, options: [.curveEaseInOut], animations: {
+                    
                     this.backgroundView.alpha = 0.0
+                    this.delegate?.willDismiss(window: window, textList: this.textList, text: this.textList.last)
+
                 }, completion: { _ in
+                    this.view.window?.isHidden = true
                     _ = this.textList.popLast()
+                    this.delegate?.didDismiss(window: window, textList: this.textList, text: this.textList.last)
                 })
             })
         }
     }
 }
 
-// MARK: - ToastWindow (function)
-private extension ToastViewController {
+// MARK: - WWToastViewController (function)
+private extension WWToastViewController {
     
     /// ToastWindow的大小寬高設定 (行數)
     /// - Parameters:
@@ -84,7 +99,7 @@ private extension ToastViewController {
     /// - Returns: 顯示的行數
     func toastWindowSetting<T>(targetFrame: CGRect, text: T, height: CGFloat = 64.0) -> Int {
         
-        guard let keyWindow = self.view.window as? ToastWindow else { fatalError() }
+        guard let keyWindow = self.view.window as? WWToastWindow else { fatalError() }
         
         let gap = (width: 36.0, height: 8.0)
         let maxWidth = targetFrame.width - gap.width * 2
@@ -113,7 +128,7 @@ private extension ToastViewController {
     ///   - duration: 顯示時間
     ///   - backgroundColor: 背景顏色
     ///   - textColor: 文字顏色
-    func toastViewControllerSetting<T>(_ text: T, lines: Int, duration: ToastViewController.ToastLength = .middle, backgroundColor: UIColor = .darkGray, textColor: UIColor = .white) {
+    func toastViewControllerSetting<T>(_ text: T, lines: Int, duration: WWToastViewController.ToastLength = .middle, backgroundColor: UIColor = .darkGray, textColor: UIColor = .white) {
         
         self.backgroundView.alpha = 0.0
         self.backgroundView.backgroundColor = backgroundColor

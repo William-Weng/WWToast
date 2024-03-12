@@ -8,17 +8,21 @@
 
 ![](./Example.gif)
 
-### [Installation with Swift Package Manager](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/使用-spm-安裝第三方套件-xcode-11-新功能-2c4ffcf85b4b)
+## [Installation with Swift Package Manager](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/使用-spm-安裝第三方套件-xcode-11-新功能-2c4ffcf85b4b)
 
-```
+```bash
 dependencies: [
     .package(url: "https://github.com/William-Weng/WWToast.git", .upToNextMajor(from: "1.1.0"))
 ]
 ```
 
-### Example
-```swift
+### [Function - 可用函式](https://www.ithome.com.tw/articles/10293984)
+|函式|功能|
+|-|-|
+|makeText(target:text:duration:backgroundColor:textColor:height:)|[顯示文字](https://kotlin.litotom.com/android-zhuan-an-kai-fa/6-activity-she-ji/6.4-shi-yong-fu-dong-xian-shi-toast-lei-bie)|
 
+## Example
+```swift
 import UIKit
 import WWPrint
 import WWToast
@@ -44,10 +48,32 @@ final class ViewController: UIViewController {
     }
 }
 
+// MARK: - WWToastDelegate
+extension ViewController: WWToastDelegate {
+    
+    func willDisplay(window: WWToastWindow?, textList: [String], text: String?) {
+        wwPrint("textList =? \(textList), text => \(text ?? "nil")")
+    }
+    
+    func didDisplay(window: WWToastWindow?, textList: [String], text: String?) {
+        wwPrint("textList =? \(textList), text => \(text ?? "nil")")
+    }
+    
+    func willDismiss(window: WWToastWindow?, textList: [String], text: String?) {
+        wwPrint("textList =? \(textList), text => \(text ?? "nil")")
+    }
+
+    func didDismiss(window: WWToastWindow?, textList: [String], text: String?) {
+        wwPrint("textList =? \(textList), text => \(text ?? "nil")")
+    }
+}
+
 // MARK: - 小工具
 private extension ViewController {
     
     func initSetting() {
+        
+        WWToast.shared.delegate = self
         
         showToastLabels.forEach { label in
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(Self.showToast(_:)))
@@ -56,5 +82,3 @@ private extension ViewController {
     }
 }
 ```
-
-
