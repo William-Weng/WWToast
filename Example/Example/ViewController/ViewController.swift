@@ -2,9 +2,8 @@
 //  ViewController.swift
 //  Example
 //
-//  Created by William.Weng on 2023/02/23.
-//  ~/Library/Caches/org.swift.swiftpm/
-//  file:///Users/william/Desktop/WWToast
+//  Created by William.Weng on 2024/12/4.
+//
 
 import UIKit
 import WWPrint
@@ -27,7 +26,7 @@ final class ViewController: UIViewController {
             return
         }
         
-        WWToast.shared.makeText(target: self, text: text, backgroundColor: .red)
+        WWToast.shared.makeText(target: self, text: text, backgroundColor: UIColor._random(), textColor: UIColor._random())
     }
 }
 
@@ -64,3 +63,4 @@ private extension ViewController {
         }
     }
 }
+

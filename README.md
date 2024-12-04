@@ -12,7 +12,7 @@
 
 ```bash
 dependencies: [
-    .package(url: "https://github.com/William-Weng/WWToast.git", .upToNextMajor(from: "1.1.0"))
+    .package(url: "https://github.com/William-Weng/WWToast.git", .upToNextMajor(from: "1.2.2"))
 ]
 ```
 
@@ -44,7 +44,7 @@ final class ViewController: UIViewController {
             return
         }
         
-        WWToast.shared.makeText(target: self, text: text, backgroundColor: .red)
+        WWToast.shared.makeText(target: self, text: text, backgroundColor: UIColor._random(), textColor: UIColor._random())
     }
 }
 

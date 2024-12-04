@@ -35,7 +35,7 @@ extension WWToastViewController {
     /// - Parameters:
     ///   - text: 文字
     ///   - duration: 時間
-    func makeText<T>(targetFrame: CGRect, text: T, duration: WWToastViewController.ToastLength = .middle, backgroundColor: UIColor = .darkGray, textColor: UIColor = .white, height: CGFloat = 64.0) {
+    func makeText<T>(targetFrame: CGRect, text: T, duration: WWToastViewController.ToastLength, backgroundColor: UIColor, textColor: UIColor, height: CGFloat) {
         
         var deadline: DispatchTime = .now()
         
@@ -61,7 +61,7 @@ extension WWToastViewController {
             let runningDuration = duration.rawValue * 0.5
             let lines = this.toastWindowSetting(targetFrame: targetFrame, text: text, height: height)
             
-            this.toastViewControllerSetting(text, lines: lines, backgroundColor: backgroundColor)
+            this.toastViewControllerSetting(text, lines: lines, duration: duration, backgroundColor: backgroundColor, textColor: textColor)
             this.backgroundView.alpha = 0.0
             this.view.window?.isHidden = false
 
@@ -97,7 +97,7 @@ private extension WWToastViewController {
     ///   - text: 顯示的文字
     ///   - height: 與底部的相差高度
     /// - Returns: 顯示的行數
-    func toastWindowSetting<T>(targetFrame: CGRect, text: T, height: CGFloat = 64.0) -> Int {
+    func toastWindowSetting<T>(targetFrame: CGRect, text: T, height: CGFloat) -> Int {
         
         guard let keyWindow = self.view.window as? WWToastWindow else { fatalError() }
         
@@ -128,7 +128,7 @@ private extension WWToastViewController {
     ///   - duration: 顯示時間
     ///   - backgroundColor: 背景顏色
     ///   - textColor: 文字顏色
-    func toastViewControllerSetting<T>(_ text: T, lines: Int, duration: WWToastViewController.ToastLength = .middle, backgroundColor: UIColor = .darkGray, textColor: UIColor = .white) {
+    func toastViewControllerSetting<T>(_ text: T, lines: Int, duration: WWToastViewController.ToastLength, backgroundColor: UIColor, textColor: UIColor) {
         
         self.backgroundView.alpha = 0.0
         self.backgroundView.backgroundColor = backgroundColor
