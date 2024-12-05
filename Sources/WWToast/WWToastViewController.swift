@@ -6,85 +6,63 @@
 //
 
 import UIKit
-import WWPrint
 
 // MARK: - WWToastViewController
 public class WWToastViewController: UIViewController {
     
-    // MARK: - 顯示的時間
-    public enum ToastLength: TimeInterval {
-        case short = 2.0
-        case middle = 4.0
-        case long = 6.0
-    }
-    
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var messageLabel: UILabel!
     
-    private let font = UIFont.systemFont(ofSize: 20.0)
-    private var previousDeadline: DispatchTime = .now()
-    private var textList: [String] = []
+    private let labelFont = UIFont.systemFont(ofSize: 20.0)
+    
+    private var textQueue: [String] = []
+    private var isDisplaing = false
+    
+    private var backgroundViewColor: UIColor = .darkText
+    private var textColor: UIColor = .white
+    private var toastLength: Constant.ToastLength = .middle
+    private var bottomHeight: CGFloat = 64.0
+    private var animationOptions: UIView.AnimationOptions = [.curveEaseInOut]
     
     weak var delegate: WWToastDelegate?
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        setting(backgroundViewColor: .darkText, textColor: .white, toastLength: .middle, bottomHeight: 64.0, animationOptions: [.curveEaseInOut])
+    }
 }
 
 // MARK: - WWToastViewController (function)
 extension WWToastViewController {
     
-    /// 顯示文字
+    /// 相關設定
+    /// - Parameters:
+    ///   - backgroundViewColor: 顯示框背景色
+    ///   - textColor: 文字顏字
+    ///   - toastLength: 顯示框的顯示時間
+    ///   - bottomHeight: 與底部的相差高度
+    ///   - animationOptions: 動畫參數
+    func setting(backgroundViewColor: UIColor?, textColor: UIColor?, toastLength: Constant.ToastLength?, bottomHeight: CGFloat?, animationOptions: UIView.AnimationOptions?) {
+        
+        self.backgroundViewColor = backgroundViewColor ?? self.backgroundViewColor
+        self.textColor = textColor ?? self.textColor
+        self.toastLength = toastLength ?? self.toastLength
+        self.bottomHeight = bottomHeight ?? self.bottomHeight
+        self.animationOptions = animationOptions ?? self.animationOptions
+    }
+    
+    /// 顯示文字框
     /// - Parameters:
     ///   - text: 文字
-    ///   - duration: 時間
-    func makeText<T>(targetFrame: CGRect, text: T, duration: WWToastViewController.ToastLength, backgroundColor: UIColor, textColor: UIColor, height: CGFloat) {
-        
-        var deadline: DispatchTime = .now()
-        
-        if (previousDeadline < deadline) { previousDeadline = deadline }
-        
-        if (!textList.isEmpty) {
-            deadline = previousDeadline + duration.rawValue
-        } else {
-            deadline = previousDeadline + 0
-        }
-        
-        previousDeadline = deadline
-        textList.append("\(text)")
+    ///   - targetFrame: 文字框最大的Frame
+    func makeText<T>(_ text: T, targetFrame: CGRect) {
         
         let window = view.window as? WWToastWindow
-                
-        delegate?.willDisplay(window: window, textList: textList, text: textList.last)
         
-        DispatchQueue.main.asyncAfter(deadline: deadline) { [weak self] in
-            
-            guard let this = self else { return }
-            
-            let runningDuration = duration.rawValue * 0.5
-            let lines = this.toastWindowSetting(targetFrame: targetFrame, text: text, height: height)
-            
-            this.toastViewControllerSetting(text, lines: lines, duration: duration, backgroundColor: backgroundColor, textColor: textColor)
-            this.backgroundView.alpha = 0.0
-            this.view.window?.isHidden = false
-
-            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: runningDuration, delay: 0, options: [.curveEaseInOut], animations: {
-                
-                this.backgroundView.alpha = 1.0
-
-            }, completion: { _ in
-                
-                this.delegate?.didDisplay(window: window, textList: this.textList, text: this.textList.last)
-                
-                UIViewPropertyAnimator.runningPropertyAnimator(withDuration: runningDuration, delay: 0, options: [.curveEaseInOut], animations: {
-                    
-                    this.backgroundView.alpha = 0.0
-                    this.delegate?.willDismiss(window: window, textList: this.textList, text: this.textList.last)
-
-                }, completion: { _ in
-                    this.view.window?.isHidden = true
-                    _ = this.textList.popLast()
-                    this.delegate?.didDismiss(window: window, textList: this.textList, text: this.textList.last)
-                })
-            })
-        }
+        textQueue.append("\(text)")
+        delegate?.toastDisplay(window, textQueue: textQueue, text: textQueue.last, status: .willDisplay)
+        
+        displayText(targetFrame: targetFrame, duration: toastLength, backgroundViewColor: backgroundViewColor, textColor: textColor, height: bottomHeight, options: animationOptions)
     }
 }
 
@@ -97,13 +75,13 @@ private extension WWToastViewController {
     ///   - text: 顯示的文字
     ///   - height: 與底部的相差高度
     /// - Returns: 顯示的行數
-    func toastWindowSetting<T>(targetFrame: CGRect, text: T, height: CGFloat) -> Int {
+    func toastWindowLineCount<T>(targetFrame: CGRect, text: T, height: CGFloat) -> Int {
         
         guard let keyWindow = self.view.window as? WWToastWindow else { fatalError() }
         
         let gap = (width: 36.0, height: 8.0)
         let maxWidth = targetFrame.width - gap.width * 2
-        let textSize = UILabel._textSizeThatFits(with: "\(text)", font: font)
+        let textSize = UILabel._textSizeThatFits(with: "\(text)", font: labelFont)
         
         var lines = 1
         var fixTextSize = CGSize(width: textSize.width + gap.width, height: textSize.height + gap.height)
@@ -128,14 +106,60 @@ private extension WWToastViewController {
     ///   - duration: 顯示時間
     ///   - backgroundColor: 背景顏色
     ///   - textColor: 文字顏色
-    func toastViewControllerSetting<T>(_ text: T, lines: Int, duration: WWToastViewController.ToastLength, backgroundColor: UIColor, textColor: UIColor) {
+    func toastViewControllerSetting<T>(_ text: T, lines: Int, duration: Constant.ToastLength, backgroundViewColor: UIColor, textColor: UIColor) {
         
         self.backgroundView.alpha = 0.0
-        self.backgroundView.backgroundColor = backgroundColor
+        self.backgroundView.backgroundColor = backgroundViewColor
         
-        self.messageLabel.font = font
+        self.messageLabel.font = labelFont
         self.messageLabel.text = "\(text)"
         self.messageLabel.textColor = textColor
         self.messageLabel.textAlignment = (lines > 1) ? .left : .center
+    }
+    /// 顯示文字框
+    /// - Parameters:
+    ///   - text: 文字
+    ///   - duration: 時間
+    ///   - targetFrame: CGRect
+    ///   - backgroundViewColor: 背景顏色
+    ///   - textColor: 文字顏色
+    ///   - height: 與底部的相差高度
+    ///   - options: 動畫參數
+    func displayText(targetFrame: CGRect, duration: Constant.ToastLength, backgroundViewColor: UIColor, textColor: UIColor, height: CGFloat, options: UIView.AnimationOptions) {
+                
+        guard !isDisplaing,
+              let text = textQueue.first,
+              let window = view.window as? WWToastWindow,
+              let runningDuration = Optional.some(duration.timeInterval() * 0.5),
+              let lines = Optional.some(toastWindowLineCount(targetFrame: targetFrame, text: text, height: height))
+        else {
+            return
+        }
+        
+        isDisplaing = true
+        toastViewControllerSetting(text, lines: lines, duration: duration, backgroundViewColor: backgroundViewColor, textColor: textColor)
+        backgroundView.alpha = 0.0
+        window.isHidden = false
+        
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: runningDuration, delay: 0, options: options, animations: { [unowned self] in
+            backgroundView.alpha = 1.0
+            
+        }, completion: { _ in
+            
+            self.delegate?.toastDisplay(window, textQueue: self.textQueue, text: self.textQueue.last, status: .didDisplay)
+            
+            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: runningDuration, delay: 0, options: options, animations: { [unowned self] in
+                
+                backgroundView.alpha = 0.0
+                delegate?.toastDisplay(window, textQueue: textQueue, text: textQueue.last, status: .willDismiss)
+                
+            }, completion: { _ in
+                window.isHidden = true
+                _ = self.textQueue.removeFirst()
+                self.isDisplaing = false
+                self.delegate?.toastDisplay(window, textQueue: self.textQueue, text: self.textQueue.last, status: .didDismiss)
+                self.displayText(targetFrame: targetFrame, duration: duration, backgroundViewColor: backgroundViewColor, textColor: textColor, height: height, options: options)
+            })
+        })
     }
 }

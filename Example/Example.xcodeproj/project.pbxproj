@@ -12,10 +12,13 @@
 		3DBCD87B26F198EF00522E3B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DBCD87926F198EF00522E3B /* Main.storyboard */; };
 		3DBCD87D26F198F300522E3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DBCD87C26F198F300522E3B /* Assets.xcassets */; };
 		3DBCD88026F198F300522E3B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DBCD87E26F198F300522E3B /* LaunchScreen.storyboard */; };
-		811EB0652D005A4C00FA6BF7 /* WWToast in Frameworks */ = {isa = PBXBuildFile; productRef = 811EB0642D005A4C00FA6BF7 /* WWToast */; };
 		811F5EF82BA02E6600FB8F39 /* WWToast in Frameworks */ = {isa = PBXBuildFile; productRef = 811F5EF72BA02E6600FB8F39 /* WWToast */; };
-		8140A0322D0058400099A510 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8140A0312D0058400099A510 /* Extension.swift */; };
 		8140A0352D0059240099A510 /* WWToast in Frameworks */ = {isa = PBXBuildFile; productRef = 8140A0342D0059240099A510 /* WWToast */; };
+		81ECFC2D2D0156B000BDF729 /* WWToast in Frameworks */ = {isa = PBXBuildFile; productRef = 81ECFC2C2D0156B000BDF729 /* WWToast */; };
+		81ECFC302D0156EB00BDF729 /* WWToast in Frameworks */ = {isa = PBXBuildFile; productRef = 81ECFC2F2D0156EB00BDF729 /* WWToast */; };
+		81ECFC362D015C5300BDF729 /* WWToast in Frameworks */ = {isa = PBXBuildFile; productRef = 81ECFC352D015C5300BDF729 /* WWToast */; };
+		81ECFC392D015CA600BDF729 /* WWToast in Frameworks */ = {isa = PBXBuildFile; productRef = 81ECFC382D015CA600BDF729 /* WWToast */; };
+		81FB66812D013E3F00D27D8A /* WWToast in Frameworks */ = {isa = PBXBuildFile; productRef = 81FB66802D013E3F00D27D8A /* WWToast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,7 +29,6 @@
 		3DBCD87C26F198F300522E3B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3DBCD87F26F198F300522E3B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3DBCD88126F198F300522E3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8140A0312D0058400099A510 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,7 +36,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				811EB0652D005A4C00FA6BF7 /* WWToast in Frameworks */,
+				81ECFC392D015CA600BDF729 /* WWToast in Frameworks */,
+				81ECFC362D015C5300BDF729 /* WWToast in Frameworks */,
+				81ECFC2D2D0156B000BDF729 /* WWToast in Frameworks */,
+				81FB66812D013E3F00D27D8A /* WWToast in Frameworks */,
+				81ECFC302D0156EB00BDF729 /* WWToast in Frameworks */,
 				8140A0352D0059240099A510 /* WWToast in Frameworks */,
 				811F5EF82BA02E6600FB8F39 /* WWToast in Frameworks */,
 			);
@@ -75,7 +81,6 @@
 			isa = PBXGroup;
 			children = (
 				3DBCD87726F198EF00522E3B /* ViewController.swift */,
-				8140A0312D0058400099A510 /* Extension.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -124,7 +129,11 @@
 			packageProductDependencies = (
 				811F5EF72BA02E6600FB8F39 /* WWToast */,
 				8140A0342D0059240099A510 /* WWToast */,
-				811EB0642D005A4C00FA6BF7 /* WWToast */,
+				81FB66802D013E3F00D27D8A /* WWToast */,
+				81ECFC2C2D0156B000BDF729 /* WWToast */,
+				81ECFC2F2D0156EB00BDF729 /* WWToast */,
+				81ECFC352D015C5300BDF729 /* WWToast */,
+				81ECFC382D015CA600BDF729 /* WWToast */,
 			);
 			productName = Example;
 			productReference = 3DBCD87026F198EF00522E3B /* Example.app */;
@@ -155,7 +164,7 @@
 			);
 			mainGroup = 3DBCD86726F198EF00522E3B;
 			packageReferences = (
-				811EB0632D005A4C00FA6BF7 /* XCRemoteSwiftPackageReference "WWToast" */,
+				81ECFC372D015CA600BDF729 /* XCRemoteSwiftPackageReference "WWToast" */,
 			);
 			productRefGroup = 3DBCD87126F198EF00522E3B /* Products */;
 			projectDirPath = "";
@@ -184,7 +193,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8140A0322D0058400099A510 /* Extension.swift in Sources */,
 				3DBCD87826F198EF00522E3B /* ViewController.swift in Sources */,
 				3DBCD87426F198EF00522E3B /* AppDelegate.swift in Sources */,
 			);
@@ -404,27 +412,43 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		811EB0632D005A4C00FA6BF7 /* XCRemoteSwiftPackageReference "WWToast" */ = {
+		81ECFC372D015CA600BDF729 /* XCRemoteSwiftPackageReference "WWToast" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/William-Weng/WWToast";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.1;
+				minimumVersion = 1.2.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		811EB0642D005A4C00FA6BF7 /* WWToast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 811EB0632D005A4C00FA6BF7 /* XCRemoteSwiftPackageReference "WWToast" */;
-			productName = WWToast;
-		};
 		811F5EF72BA02E6600FB8F39 /* WWToast */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WWToast;
 		};
 		8140A0342D0059240099A510 /* WWToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WWToast;
+		};
+		81ECFC2C2D0156B000BDF729 /* WWToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WWToast;
+		};
+		81ECFC2F2D0156EB00BDF729 /* WWToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WWToast;
+		};
+		81ECFC352D015C5300BDF729 /* WWToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WWToast;
+		};
+		81ECFC382D015CA600BDF729 /* WWToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81ECFC372D015CA600BDF729 /* XCRemoteSwiftPackageReference "WWToast" */;
+			productName = WWToast;
+		};
+		81FB66802D013E3F00D27D8A /* WWToast */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WWToast;
 		};
