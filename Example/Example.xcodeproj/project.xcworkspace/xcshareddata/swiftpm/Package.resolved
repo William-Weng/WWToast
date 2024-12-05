@@ -1,21 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "wwprint",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/William-Weng/WWPrint.git",
-      "state" : {
-        "revision" : "8f5928f5d36624d77f8fc563fd8e31a59cfac6b6",
-        "version" : "1.3.1"
-      }
-    },
-    {
       "identity" : "wwtoast",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/William-Weng/WWToast",
       "state" : {
-        "revision" : "8e4c75253d5959d636ec74a0e1e6daba19cc44ae",
-        "version" : "1.2.2"
+        "revision" : "eaf7d4f9d453be47fe7696b784b4eaa2928a8c72",
+        "version" : "1.3.0"
       }
     }
   ],
